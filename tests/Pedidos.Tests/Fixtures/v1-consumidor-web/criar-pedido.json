@@ -1,0 +1,23 @@
+{
+  "descricao": "Chamada do web atual ao contrato v1, gravada como fixture. Sem Idempotency-Key e sem X-Client-Id, como hoje.",
+  "request": {
+    "method": "POST",
+    "path": "/v1/orders",
+    "body": {
+      "customerId": "cli-0001",
+      "items": [
+        { "productId": "SKU-0001", "quantity": 2 },
+        { "productId": "SKU-0002", "quantity": 1 }
+      ]
+    }
+  },
+  "response": {
+    "status": 201,
+    "contentType": "application/json",
+    "body": {
+      "id": "{{uuid}}",
+      "status": "CREATED",
+      "total": 259.70
+    }
+  }
+}

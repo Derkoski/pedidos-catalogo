@@ -1,0 +1,17 @@
+{
+  "catalogVersion": "2026-10-01.1",
+  "products": [
+    { "id": "SKU-0001", "country": "BR", "description": "Camiseta básica algodão", "price": 49.90, "currency": "BRL" },
+    { "id": "SKU-0002", "country": "BR", "description": "Calça jeans reta", "price": 159.90, "currency": "BRL" },
+    { "id": "SKU-0003", "country": "BR", "description": "Tênis corrida", "price": 329.00, "currency": "BRL" },
+    { "id": "SKU-0004", "country": "BR", "description": "Meia esportiva (par)", "price": 19.90, "currency": "BRL" },
+    { "id": "SKU-0005", "country": "BR", "description": "Mochila 20 L", "price": 189.50, "currency": "BRL" },
+    { "id": "SKU-0006", "country": "BR", "description": "Garrafa térmica 500 ml", "price": 79.90, "currency": "BRL" },
+    { "id": "SKU-0007", "country": "BR", "description": "Boné aba curva", "price": 59.00, "currency": "BRL" },
+    { "id": "SKU-0008", "country": "BR", "description": "Jaqueta corta-vento", "price": 249.90, "currency": "BRL" },
+    { "id": "SKU-0009", "country": "BR", "description": "Shorts de treino", "price": 69.90, "currency": "BRL" },
+    { "id": "SKU-0010", "country": "BR", "description": "Relógio esportivo", "price": 599.00, "currency": "BRL" },
+    { "id": "SKU-0001", "country": "P2", "description": "Basic cotton t-shirt", "price": 12.00, "currency": "USD" },
+    { "id": "SKU-0002", "country": "P2", "description": "Straight jeans", "price": 39.00, "currency": "USD" }
+  ]
+}

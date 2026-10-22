@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  contratos:
+    name: Contratos (lint e compatibilidade)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Lint OpenAPI (Spectral)
+        run: npx --yes @stoplight/spectral-cli@6.15.0 lint contracts/openapi/*.yaml --ruleset .spectral.yaml --fail-severity error
+
+      - name: Validar AsyncAPI
+        run: npx --yes @asyncapi/cli@3.4.2 validate contracts/asyncapi/order-status.yaml --fail-severity error
+
+      - name: Instalar oasdiff
+        run: curl -sSL https://github.com/oasdiff/oasdiff/releases/download/v1.34.1/oasdiff_1.34.1_linux_amd64.tar.gz | sudo tar -xz -C /usr/local/bin oasdiff
+
+      - name: Prova negativa da checagem de compatibilidade
+        run: |
+          python3 -m pip install --user pyyaml==6.0.2
+          bash scripts/contrato-breaking-autoteste.sh
+
+      - name: Quebra de contrato na mesma versão major (oasdiff)
+        run: bash scripts/contrato-breaking.sh "$BASE_REF"
+        env:
+          BASE_REF: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || github.event.before }}
+
+  testes:
+    name: Build e testes (prova + fitness functions)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: dotnet test
+        run: dotnet test --configuration Release --logger trx --results-directory TestResults
+
+      - name: Publicar resultados
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-testes
+          path: TestResults

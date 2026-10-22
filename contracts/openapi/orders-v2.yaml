@@ -1,0 +1,280 @@
+openapi: 3.1.0
+info:
+  title: Pedidos API v2
+  version: 2.0.0
+  description: |
+    Contrato para app, parceiros e web (quando migrar). ADR-004.
+    - `Idempotency-Key` obrigatório na criação (ADR-001).
+    - Itens com snapshot de preço e descrição (ADR-003).
+    - Consumidores devem tolerar valores desconhecidos em `status` (doc 09).
+  contact:
+    name: Time de Pedidos
+servers:
+  - url: https://api-br.exemplo.com
+    description: Célula Brasil
+  - url: https://api-p2.exemplo.com
+    description: Segundo país (host próprio; célula na região só se a lei exigir, ADR-005)
+security:
+  - oauth2: [orders:read]
+tags:
+  - name: pedidos
+  - name: webhooks
+paths:
+  /v2/orders:
+    post:
+      operationId: criarPedidoV2
+      tags: [pedidos]
+      summary: Cria um pedido
+      description: |
+        O país do pedido vem do cliente de API (claim `country` do token, vinculada ao `client_id`),
+        e define catálogo, preço e moeda. Cliente de um país não atendido por este host recebe 403.
+      security:
+        - oauth2: [orders:write]
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+            example:
+              customerId: cli-0001
+              items:
+                - productId: SKU-0001
+                  quantity: 2
+      responses:
+        '201':
+          description: Pedido criado (ou resposta original, se for replay com a mesma chave)
+          headers:
+            Location:
+              description: URL do pedido
+              schema:
+                type: string
+            Idempotent-Replayed:
+              $ref: '#/components/headers/IdempotentReplayed'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+        '409':
+          $ref: '#/components/responses/Problem'
+        '422':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
+        '503':
+          $ref: '#/components/responses/Problem'
+  /v2/orders/{id}:
+    get:
+      operationId: consultarPedidoV2
+      tags: [pedidos]
+      summary: Consulta um pedido do próprio cliente de API
+      description: Pedido de outro cliente de API responde 404, sem revelar que existe (ADR-007).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '404':
+          $ref: '#/components/responses/Problem'
+  /v2/webhooks:
+    post:
+      operationId: cadastrarWebhookV2
+      tags: [webhooks]
+      summary: Cadastra um endpoint para receber mudança de status (planejado para 60 dias)
+      description: |
+        Planejado para o plano de 60 dias; não implementado na fatia executável (ADR-006).
+        Só HTTPS, sem IP privado (proteção contra SSRF). O segredo HMAC é devolvido uma única vez.
+      security:
+        - oauth2: [webhooks:manage]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookSubscriptionRequest'
+      responses:
+        '201':
+          description: Assinatura criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookSubscription'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '403':
+          $ref: '#/components/responses/Problem'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: client_credentials para parceiros; OIDC para web e app (ADR-007).
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.exemplo.com/oauth2/token
+          scopes:
+            orders:read: Ler pedidos do próprio cliente
+            orders:write: Criar pedidos
+            webhooks:manage: Gerenciar webhooks
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: |
+        Obrigatório. UUID recomendado. Escopo por cliente de API, retenção de 24 h.
+        Mesma chave e mesmo payload: devolve a resposta original.
+        Mesma chave e payload diferente: 422. Requisição concorrente com a mesma chave ainda não visível: 409 (repita com a mesma chave).
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 64
+  headers:
+    IdempotentReplayed:
+      description: '`true` quando a resposta é a original de uma chamada anterior com a mesma chave.'
+      schema:
+        type: string
+        enum: ['true']
+  responses:
+    Problem:
+      description: Erro no formato RFC 9457
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+  schemas:
+    WebhookSubscriptionRequest:
+      type: object
+      additionalProperties: false
+      required: [url, events]
+      properties:
+        url:
+          type: string
+          format: uri
+          pattern: '^https://'
+          maxLength: 2048
+        events:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            enum: [order.status-changed]
+    WebhookSubscription:
+      type: object
+      required: [id, url, events, secret, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        url:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            type: string
+        secret:
+          type: string
+          description: Segredo HMAC. Exibido só na criação.
+        createdAt:
+          type: string
+          format: date-time
+    CreateOrderRequest:
+      type: object
+      required: [customerId, items]
+      properties:
+        customerId:
+          type: string
+          minLength: 1
+          maxLength: 64
+        items:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: object
+            required: [productId, quantity]
+            properties:
+              productId:
+                type: string
+                minLength: 1
+              quantity:
+                type: integer
+                minimum: 1
+                maximum: 999
+    Order:
+      type: object
+      required: [id, status, customerId, country, currency, total, createdAt, items]
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          description: 'Valores atuais: CREATED, CONFIRMED, SHIPPED, DELIVERED, CANCELLED. Tolerar valores novos.'
+          examples: [CREATED]
+        customerId:
+          type: string
+        country:
+          type: string
+          description: País da célula que gravou o pedido (ISO 3166-1 alfa-2)
+        currency:
+          type: string
+          description: ISO 4217
+        total:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+    OrderItem:
+      type: object
+      description: Snapshot imutável do Catálogo no momento da criação.
+      required: [productId, description, quantity, unitPrice, currency, catalogVersion]
+      properties:
+        productId:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: integer
+        unitPrice:
+          type: number
+        currency:
+          type: string
+        catalogVersion:
+          type: string
+    Problem:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
