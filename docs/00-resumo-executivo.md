@@ -28,10 +28,10 @@ A decisão mais crítica (idempotência + contrato versionado + outbox) está pr
 
 | Fase | Sem IA | Com IA no desenvolvimento | Infraestrutura |
 |------|-------:|--------------------------:|----------------|
-| 30 dias | ~116 pessoa-dia · ≈ R$ 93,2 mil | ~93 pessoa-dia · ≈ R$ 79,2 mil (−15 %) | A cotar após medir o tráfego |
-| 60 e 90 dias | ~275 pessoa-dia · ≈ R$ 214,6 mil | ~218 pessoa-dia · ≈ R$ 178,4 mil (−17 %) | A cotar após definir país e provedor |
+| 30 dias | ~116 pessoa-dia · ≈ R$ 93,2 mil | ~93 pessoa-dia · ≈ R$ 79,2 mil (−15 %) | ≈ R$ 3 a 7,5 mil |
+| 60 e 90 dias | ~275 pessoa-dia · ≈ R$ 214,6 mil | ~218 pessoa-dia · ≈ R$ 178,4 mil (−17 %) | ≈ R$ 16 a 57 mil |
 
-Custo = salário CLT × 1,66 (encargos e provisões), sem benefícios; o cenário com IA inclui as licenças. O ganho com IA (~20 % de esforço) vem de estudos publicados e será medido nas semanas 1 e 2; o prazo não muda, porque é ditado pelo rollout seguro. O preço da proposta acrescenta tributos e margem, definidos pela área comercial.
+Custo = salário CLT × 1,66 (encargos e provisões), sem benefícios; o cenário com IA inclui as licenças. Os salários são estimativa minha por cargo; o custo real depende dos dados da empresa. A infraestrutura é ordem de grandeza por preço de lista; a faixa alta inclui a célula do País 2. O ganho com IA (~20 % de esforço) vem de estudos publicados e será medido nas semanas 1 e 2; o prazo não muda, porque é ditado pelo rollout seguro. O preço da proposta acrescenta tributos e margem, definidos pela área comercial.
 
 Detalhe em [10-estimativa-fase-30-dias.md](10-estimativa-fase-30-dias.md).
 
@@ -47,7 +47,7 @@ Detalhe em [10-estimativa-fase-30-dias.md](10-estimativa-fase-30-dias.md).
 3. Preço vale no momento do pedido; defasagem de até 60 s no cache é aceitável; com o Catálogo fora, vender pelo último preço conhecido por até 15 min (ou recusar o pedido).
 4. Retenção da chave de idempotência em 24 h.
 5. Provedor de nuvem, broker e gateway (critérios prontos; escolha na semana 1).
-6. Salário de SRE/DevOps (premissa), benefícios, tributos e margem da proposta.
+6. Custos reais da empresa (folha por cargo, benefícios, licenças, ferramentas de IA), tributos e margem da proposta.
 7. Piloto do assistente de IA para o atendimento após os 90 dias.
 
 ## Índice

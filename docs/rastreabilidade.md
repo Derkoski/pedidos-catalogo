@@ -94,7 +94,7 @@ Legenda: ✅ atendido no repositório · ⏳ depende de ação fora do repositó
 | OpenAPI, AsyncAPI, fatia executável e testes | `contracts/` · `src/` · `tests/` | ✅ |
 | Documento da ferramenta de IA: motivo, prompts, validações, cuidados com dados | [uso-de-ia](uso-de-ia.md) | ✅ |
 | Resumo executivo de até 2 páginas: recomendação, investimento, riscos, decisões a validar | [00](00-resumo-executivo.md) | ✅ |
-| Desejável: vídeo ou slides | [apresentacao.pptx](../entregaveis/apresentacao.pptx) | ✅ slides |
+| Desejável: vídeo ou slides | [apresentacao.pptx](../entregaveis/apresentacao.pptx) | ✅ 10 slides |
 
 ## 3. Critérios de avaliação
 

@@ -6,7 +6,7 @@ Resposta ao **Desafio Técnico COE Sênior – Arquitetura de Soluções (Stefan
 
 > **Por onde começar:** leia a seção "Em 1 minuto" abaixo, depois o [resumo executivo](docs/00-resumo-executivo.md) (2 páginas). Para avaliar, use o [roteiro por critério](#3-roteiro-por-critério-de-avaliação). Para conferir item por item do PDF, use a [matriz de rastreabilidade](docs/rastreabilidade.md).
 
-**Versão em PDF para leitura:** [Resumo executivo (2 páginas)](entregaveis/Resumo-executivo.pdf) · [Documentação completa](entregaveis/Documentacao-completa.pdf). Os PDFs são gerados a partir destes `.md`, que são a fonte (ver [scripts/pdf](scripts/pdf/build.mjs)).
+**Para ler fora do GitHub:** [Resumo executivo em PDF (2 páginas)](entregaveis/Resumo-executivo.pdf) · [Apresentação (10 slides)](entregaveis/apresentacao.pdf). O PDF é gerado a partir dos `.md`, que são a fonte (ver [scripts/pdf](scripts/pdf/build.mjs)).
 
 ## 1. Em 1 minuto
 
@@ -125,9 +125,9 @@ As premissas da arquitetura (tráfego, país, nuvem) estão em [07 – Premissas
 | Fatia executável e testes | `src/` · `tests/Pedidos.Tests` |
 | Documento de uso de IA | [uso-de-ia](docs/uso-de-ia.md) |
 | Resumo executivo (2 páginas) | [00](docs/00-resumo-executivo.md) |
-| Apresentação (desejável) | [apresentacao.pptx](entregaveis/apresentacao.pptx) · [PDF](entregaveis/apresentacao.pdf) |
+| Apresentação (desejável), 10 slides | [apresentacao.pptx](entregaveis/apresentacao.pptx) · [PDF](entregaveis/apresentacao.pdf) |
 | Conferência item a item | [rastreabilidade](docs/rastreabilidade.md) |
-| Versões em PDF (geradas dos `.md`) | [Resumo executivo](entregaveis/Resumo-executivo.pdf) · [Documentação completa](entregaveis/Documentacao-completa.pdf) |
+| Resumo executivo em PDF (gerado do `.md`) | [Resumo executivo](entregaveis/Resumo-executivo.pdf) |
 
 Outros: [01 – Diagnóstico](docs/01-diagnostico.md) · [04 – Qualidade e resiliência](docs/04-qualidade-e-resiliencia.md) · [07 – Riscos e escopo](docs/07-riscos-premissas-escopo.md) · [08 – IA](docs/08-ia-consulta-de-pedidos.md) · [09 – Governança](docs/09-governanca-de-contratos.md) · [10 – Estimativa](docs/10-estimativa-fase-30-dias.md) · [Exceções](docs/excecoes.md) · [docs/ia](docs/ia/)
 
@@ -139,6 +139,6 @@ data/        catálogo sintético
 src/         Domain, Application, Infrastructure, Api
 tests/       prova executável e fitness functions (Governanca/)
 docs/        arquitetura, ADRs, governança, IA
-entregaveis/ resumo executivo e documentação completa em PDF (gerados dos .md) e slides (pptx e pdf)
+entregaveis/ resumo executivo em PDF (gerado do .md) e apresentação de 10 slides (pptx e pdf)
 scripts/     checagem de quebra de contrato (oasdiff); geração dos PDFs (pdf/)
 ```

@@ -27,6 +27,7 @@ Claude Code (Anthropic), em sessões separadas por fase, com um arquivo de conte
 | 4 | README, este documento e slides; cruzar cada item do requisito com um artefato | Fechar lacunas |
 | 6 | Avaliação simulada critério a critério (ver seção abaixo), com o candidato conferindo cada ponto antes de aplicar | Achar e corrigir o que um avaliador exigente pegaria |
 | 7 | Segunda avaliação simulada com o mesmo prompt da fase 6, agora sobre o repositório publicado (ver seção abaixo) | Conferir consistência entre contratos, código e documentação |
+| 8 | Terceira avaliação com o mesmo prompt. Ajustes escolhidos pelo candidato: infraestrutura em ordem de grandeza, salários declarados como estimativa própria e apresentação curta | Fechar os pontos de atuação sênior |
 | 5 | Revisar para leitura humana: guia do avaliador no README, matriz de rastreabilidade item a item do PDF, quadro "Para o avaliador" em cada documento; completar a IA com prompt de sistema, casos de avaliação e ameaças T20–T22 | Facilitar a conferência; fechar lacunas da 2.5.1 |
 
 ## Validações feitas
@@ -39,7 +40,8 @@ Claude Code (Anthropic), em sessões separadas por fase, com um arquivo de conte
 | ADRs | Checagem automática pegou desvio real no ADR-005 (status com observação); o formato foi ajustado |
 | Arquitetura de código | NetArchTest: domínio sem dependência de infraestrutura nem ASP.NET |
 | Evento sem dado pessoal | Teste compara o payload da outbox com os campos do schema AsyncAPI |
-| Números da estimativa | A primeira versão usava taxa horária sem fonte (R$ 160/h). Foi rejeitada na revisão humana e refeita com salários CLT informados pela empresa, fator de encargos detalhado e separação entre custo e preço |
+| Números da estimativa | A primeira versão usava taxa horária sem fonte (R$ 160/h). Foi rejeitada na revisão humana e refeita com salários CLT estimados por mim para cada cargo (premissa, a substituir pela folha real), fator de encargos detalhado e separação entre custo e preço |
+| Infraestrutura na estimativa | Na fase 8, a avaliação simulada apontou que "a cotar" não atendia "custos principais" (2.5.3). Entrou uma ordem de grandeza por preço de lista, com as premissas explícitas |
 | Cobertura do PDF | Revisão item a item contra o enunciado; resultado em [rastreabilidade.md](rastreabilidade.md) |
 | Links da documentação | Script conferiu que todo link relativo e toda âncora de seção existem |
 | CI no GitHub | Workflow verde no primeiro push (contratos e testes): https://github.com/Derkoski/pedidos-catalogo/actions/runs/39844784059 |
@@ -119,4 +121,4 @@ Validação desta fase: CI do GitHub (Spectral, AsyncAPI CLI, oasdiff contra a v
 | 2.5.2 Governança | [09](09-governanca-de-contratos.md), [exceções](excecoes.md), `tests/Pedidos.Tests/Governanca` |
 | 2.5.3 Estimativa | [10](10-estimativa-fase-30-dias.md) |
 | Entrega: README, índice, resumo executivo, documento de IA | README, [00](00-resumo-executivo.md), este documento |
-| Desejável: slides | [apresentacao.pptx](../entregaveis/apresentacao.pptx) |
+| Desejável: slides | [apresentacao.pptx](../entregaveis/apresentacao.pptx) (10 slides) |

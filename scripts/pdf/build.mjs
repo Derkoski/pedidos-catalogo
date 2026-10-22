@@ -1,4 +1,5 @@
-// Gera entregaveis/Documentacao-completa.pdf e entregaveis/Resumo-executivo.pdf a partir dos .md (fonte de verdade).
+// Gera entregaveis/Resumo-executivo.pdf a partir dos .md (fonte de verdade).
+// A documentação completa em PDF (uso pessoal, fora do repositório) só é gerada com FULL=1.
 // Uso: cd scripts/pdf && npm install && npx playwright install chromium && npm run pdf
 import fs from "node:fs";
 import path from "node:path";
@@ -206,7 +207,7 @@ async function render(html, file, footerLabel) {
   });
   await pg.close();
 }
-await render(fullHtml(), "Documentacao-completa.pdf", "Pedidos e Catálogo – Documentação completa");
+if (process.env.FULL === "1") await render(fullHtml(), "Documentacao-completa.pdf", "Pedidos e Catálogo – Documentação completa");
 await render(summaryHtml(), "Resumo-executivo.pdf", "Pedidos e Catálogo – Resumo executivo");
 await browser.close();
 console.log("ok");
