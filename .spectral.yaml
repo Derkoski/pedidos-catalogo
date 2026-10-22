@@ -1,0 +1,31 @@
+# Regras de lint dos contratos OpenAPI (doc 09, seção 2).
+extends: ["spectral:oas"]
+rules:
+  operation-operationId: error
+  operation-tags: error
+
+  erro-com-problem-json:
+    description: Respostas 4xx e 5xx usam application/problem+json.
+    severity: error
+    given: "$.paths.*.*.responses[?(@property.match(/^[45]/))].content"
+    then:
+      field: application/problem+json
+      function: truthy
+
+  v2-criacao-exige-idempotency-key:
+    description: POST /v2/orders exige header Idempotency-Key obrigatório.
+    severity: error
+    given: "$.paths['/v2/orders'].post"
+    then:
+      field: parameters
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          contains:
+            type: object
+            required: [name, in, required]
+            properties:
+              name: { const: Idempotency-Key }
+              in: { const: header }
+              required: { const: true }

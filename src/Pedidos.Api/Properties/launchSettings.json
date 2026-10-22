@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Pedidos.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:60609;http://localhost:60610"
+    }
+  }
+}

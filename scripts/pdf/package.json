@@ -1,0 +1,14 @@
+{
+  "name": "pedidos-catalogo-pdf",
+  "private": true,
+  "type": "module",
+  "description": "Gera entregaveis/*.pdf a partir dos .md (fonte de verdade).",
+  "scripts": {
+    "pdf": "node build.mjs ../.. ../../entregaveis"
+  },
+  "dependencies": {
+    "marked": "15.0.12",
+    "mermaid": "11.4.1",
+    "playwright": "1.56.1"
+  }
+}

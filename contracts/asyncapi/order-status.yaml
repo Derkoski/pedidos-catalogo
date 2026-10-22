@@ -1,0 +1,102 @@
+asyncapi: 3.0.0
+info:
+  title: Eventos de status de pedido
+  version: 1.0.0
+  description: |
+    Evento `order.status-changed`, publicado via outbox (ADR-002) e entregue a parceiros por webhook (ADR-006).
+    Entrega pelo menos uma vez: deduplicar por `eventId`, ignorar `version` menor que a já aplicada.
+    Sem dado pessoal. Consumidores devem tolerar valores desconhecidos em `status`.
+defaultContentType: application/json
+servers:
+  broker:
+    host: broker.interno.exemplo.com
+    protocol: kafka
+    description: Broker interno compartilhado entre países; eventos só com IDs e status (ADR-005). Produto definido no plano de 60 dias
+  webhook:
+    host: parceiro.exemplo.com
+    protocol: https
+    description: Endpoint HTTPS cadastrado pelo parceiro
+    security:
+      - $ref: '#/components/securitySchemes/hmac'
+channels:
+  orderStatus:
+    address: orders.status
+    description: Tópico interno. Chave de partição = orderId.
+    servers:
+      - $ref: '#/servers/broker'
+    messages:
+      orderStatusChanged:
+        $ref: '#/components/messages/OrderStatusChanged'
+  partnerWebhook:
+    address: '{webhookPath}'
+    description: URL cadastrada pelo parceiro em POST /v2/webhooks.
+    servers:
+      - $ref: '#/servers/webhook'
+    parameters:
+      webhookPath:
+        description: Caminho cadastrado pelo parceiro
+    messages:
+      orderStatusChanged:
+        $ref: '#/components/messages/OrderStatusChanged'
+operations:
+  publishOrderStatus:
+    action: send
+    channel:
+      $ref: '#/channels/orderStatus'
+    summary: Relay da outbox publica a mudança de status
+    messages:
+      - $ref: '#/channels/orderStatus/messages/orderStatusChanged'
+  notifyPartner:
+    action: send
+    channel:
+      $ref: '#/channels/partnerWebhook'
+    summary: Notificador entrega o evento ao parceiro (timeout 5 s, retry por 24 h)
+    messages:
+      - $ref: '#/channels/partnerWebhook/messages/orderStatusChanged'
+components:
+  securitySchemes:
+    hmac:
+      type: httpApiKey
+      name: X-Signature
+      in: header
+      description: HMAC-SHA256 de "timestamp.corpo" com o segredo do parceiro. Formato "t=<unix>,v1=<hex>".
+  messages:
+    OrderStatusChanged:
+      name: order.status-changed
+      title: Status do pedido mudou
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OrderStatusChangedPayload'
+  schemas:
+    OrderStatusChangedPayload:
+      type: object
+      additionalProperties: false
+      required: [eventId, type, schemaVersion, occurredAt, orderId, previousStatus, status, version]
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: ID da linha na outbox. Estável entre republicações.
+        type:
+          type: string
+          const: order.status-changed
+        schemaVersion:
+          type: integer
+          const: 1
+          description: Versão major do schema.
+        occurredAt:
+          type: string
+          format: date-time
+        orderId:
+          type: string
+          format: uuid
+        previousStatus:
+          type: [string, 'null']
+          description: Nulo na criação.
+        status:
+          type: string
+          description: 'Valores atuais: CREATED, CONFIRMED, SHIPPED, DELIVERED, CANCELLED.'
+        version:
+          type: integer
+          minimum: 1
+          description: Versão do pedido. Cresce a cada mudança.
