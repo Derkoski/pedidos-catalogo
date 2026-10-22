@@ -46,7 +46,7 @@ Claude Code (Anthropic), em sessões separadas por fase, com um arquivo de conte
 | Números da estimativa | A primeira versão usava taxa horária sem fonte (R$ 160/h). Foi rejeitada na revisão humana e refeita com salários CLT informados pela empresa, fator de encargos detalhado e separação entre custo e preço |
 | Cobertura do PDF | Revisão item a item contra o enunciado; resultado em [rastreabilidade.md](rastreabilidade.md) |
 | Links da documentação | Script conferiu que todo link relativo e toda âncora de seção existem |
-| Limite | O workflow do GitHub Actions ainda não rodou em repositório real |
+| CI no GitHub | Workflow verde no primeiro push (contratos e testes): https://github.com/Derkoski/pedidos-catalogo/actions/runs/39844784059 |
 
 ## Decisões de IA rejeitadas
 
