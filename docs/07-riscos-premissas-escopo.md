@@ -1,10 +1,5 @@
 # 07 – Riscos, premissas, débitos aceitos e fora de escopo
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.4.1 Riscos, premissas, débitos aceitos e fora de escopo  
-> **Critério de avaliação:** Atuação sênior · Estratégia de evolução  
-> **O que conferir aqui:** Riscos com gatilho de acompanhamento; premissas a validar com o cliente; débitos aceitos com data para pagar; o que ficou fora e por quê.
-
 ## Riscos
 
 | # | Risco | Prob. | Impacto | Mitigação | Gatilho |

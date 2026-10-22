@@ -12,7 +12,7 @@ using Pedidos.Infrastructure.Persistence;
 
 namespace Pedidos.Tests.Infra;
 
-/// <summary>Sobe a API em memória com um banco SQLite próprio (arquivo temporário) por instância.</summary>
+/// <summary>Sobe a API no servidor de teste com um banco SQLite próprio (arquivo temporário, apagado no Dispose) por instância.</summary>
 public sealed class ApiFactory(CellOptions? cell = null) : WebApplicationFactory<Program>
 {
     private readonly string _dbPath = Path.Combine(Path.GetTempPath(), $"pedidos-test-{Guid.NewGuid():N}.db");

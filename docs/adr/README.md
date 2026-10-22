@@ -1,10 +1,5 @@
 # ADRs
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.3.2 Mínimo de quatro ADRs  
-> **Critério de avaliação:** Decisões e trade-offs  
-> **O que conferir aqui:** Cada ADR tem Contexto, Alternativas (com o motivo de cada rejeição), Decisão e Consequências. O formato é checado no CI por `AdrTests`.
-
 Formato obrigatório (checado no CI): título `# ADR-NNN – ...`, linha `Status:` e as seções `## Contexto`, `## Alternativas`, `## Decisão`, `## Consequências`.
 
 Status possíveis: `Proposto`, `Aceito`, `Substituído por ADR-NNN`, `Rejeitado`, com observação opcional entre parênteses.

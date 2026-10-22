@@ -1,10 +1,5 @@
 # 02 – Arquitetura atual e alvo
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.3.1 Visões arquiteturais  
-> **Critério de avaliação:** Arquitetura de solução  
-> **O que conferir aqui:** C4 atual (§1–§2) e alvo (§3–§4); fronteiras de confiança (§5); pontos de falha (§2 e §6); atributo de qualidade → mecanismo (§7); sequências de criação (§8) e de status (§9).
-
 Notação: modelo C4, níveis 1 (Contexto) e 2 (Contêineres), em Mermaid. Usei `flowchart` com o visual oficial do C4 (cores, estereótipo entre colchetes, fronteiras tracejadas). Testei a sintaxe nativa `C4Context`/`C4Container`: ela é marcada como experimental no Mermaid e, com o layout em grade fixa, sobrepôs rótulos e cruzou setas sobre as caixas no diagrama alvo. O `flowchart` roteia as setas e continua versionável e renderizado pelo GitHub.
 
 | Visual | Elemento C4 |

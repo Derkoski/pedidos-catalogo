@@ -1,10 +1,5 @@
 # Resumo executivo – Evolução da plataforma de Pedidos e Catálogo
 
-> **Para o avaliador**  
-> **Item do PDF:** Seção 4 do PDF: resumo executivo de até 2 páginas  
-> **Critério de avaliação:** Atuação sênior  
-> **O que conferir aqui:** Recomendação, investimento, riscos e decisões que o cliente precisa validar, nessa ordem.
-
 ## Situação
 A plataforma atende só o web nacional. Em 90 dias precisa atender app, parceiros de marketplace e um segundo país, com 10x de volume, 99,9 % de disponibilidade e p95 de 500 ms na criação de pedido. Hoje ela tem quatro falhas que pioram com escala: pedido duplicado em retry, evento publicado fora da transação, N+1 síncrono no Catálogo e ausência de snapshot de preço. Não há API versionada para parceiros nem separação de dados por país.
 

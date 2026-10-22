@@ -1,9 +1,5 @@
 # Rastreabilidade: cada item do PDF → onde está
 
-> **Para o avaliador**  
-> **Atende:** conferência de todo o enunciado (seções 2.2 a 4 do PDF), na mesma ordem do PDF.  
-> **Como usar:** cada linha é um item do PDF. A coluna "Onde está" leva direto ao arquivo e à seção. A coluna "Evidência" diz o que comprova o item (tabela, diagrama ou teste).
-
 Legenda: ✅ atendido no repositório · ⏳ depende de ação fora do repositório (indicada na linha).
 
 ## 2.2.1 Contexto e restrições

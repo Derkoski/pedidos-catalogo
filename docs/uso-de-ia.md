@@ -1,10 +1,5 @@
 # Uso de IA no desafio
 
-> **Para o avaliador**  
-> **Item do PDF:** Seção 4 do PDF (documento de IA) e 2.5.1 (uso de IA no desafio)  
-> **Critério de avaliação:** Uso eficaz de IA  
-> **O que conferir aqui:** Ferramenta e motivo; prompts relevantes; como cada saída foi validada; sugestões da IA que foram rejeitadas e por quê; cuidados com dados.
-
 ## Ferramenta e motivo
 Claude Code (Anthropic), em sessões separadas por fase, com um arquivo de contexto e um controle de fases mantidos fora do repositório.
 
@@ -31,6 +26,7 @@ Claude Code (Anthropic), em sessões separadas por fase, com um arquivo de conte
 | 3 | Transformar a política de contratos em fitness functions no CI (Spectral, AsyncAPI CLI, oasdiff, ADR, NetArchTest, PII, exceções vencidas) | Diferencial 2.5.2 |
 | 4 | README, este documento e slides; cruzar cada item do requisito com um artefato | Fechar lacunas |
 | 6 | Avaliação simulada critério a critério (ver seção abaixo), com o candidato conferindo cada ponto antes de aplicar | Achar e corrigir o que um avaliador exigente pegaria |
+| 7 | Segunda avaliação simulada com o mesmo prompt da fase 6, agora sobre o repositório publicado (ver seção abaixo) | Conferir consistência entre contratos, código e documentação |
 | 5 | Revisar para leitura humana: guia do avaliador no README, matriz de rastreabilidade item a item do PDF, quadro "Para o avaliador" em cada documento; completar a IA com prompt de sistema, casos de avaliação e ameaças T20–T22 | Facilitar a conferência; fechar lacunas da 2.5.1 |
 
 ## Validações feitas
@@ -89,6 +85,21 @@ Para cada critério, a IA listou o que garantia a nota e o que impedia a nota m�
 | Ameaças de `customerId` de terceiro, país forjado e segredos em texto puro | IA | T23–T25 (doc 05) |
 
 Validação desta fase: `dotnet test` (52 de 52), Spectral, AsyncAPI CLI, oasdiff entre os contratos de antes e depois da revisão (nenhuma quebra) e renderização de todos os diagramas Mermaid.
+
+## Fase 7 – segunda avaliação simulada, sobre o repositório publicado
+
+Mesmo prompt de abertura da fase 6, aplicado ao repositório já no GitHub. Desta vez a IA leu tudo do zero (README, docs, ADRs, contratos, código e testes), sem o contexto das sessões anteriores. Achados, todos conferidos pelo candidato antes de aplicar:
+
+| Achado | Critério afetado | Correção |
+|--------|------------------|----------|
+| Doc 03 citava `GET /v2/orders?updatedSince=` para reconciliação, ausente da OpenAPI v2 | Domínio · Prova | Endpoint incluído na OpenAPI v2, marcado como planejado para 60 dias (ADR-006) |
+| OpenAPI v1 declarava token obrigatório, mas o consumidor atual (fixture) chama sem token | Segurança · Prova | Exigência removida do v1, com a justificativa no contrato e no ADR-007; token vale para o v2 |
+| README dizia "SQLite em memória", e os testes usam arquivo temporário | Prova | README corrigido, com o motivo (conexões separadas na concorrência) |
+| Qualquer violação de constraint no banco virava `409` de idempotência | Prova | Só a violação da chave da tabela `idempotency_keys` vira conflito; o resto segue como erro |
+| Quadro "Para o avaliador" em todo documento soava como escrito para a banca | Atuação sênior | Quadros removidos; o roteiro por critério do README e a matriz de rastreabilidade cumprem o papel |
+| CI verde só citado por link | Prova | Badge do CI no topo do README |
+
+Validação desta fase: CI do GitHub (Spectral, AsyncAPI CLI, oasdiff contra a versão publicada, `dotnet test`), PDFs regenerados e links relativos conferidos por script.
 
 ## Limites da IA neste trabalho
 - Estimativas de custo e tráfego são hipóteses; precisam do cliente.

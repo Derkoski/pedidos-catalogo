@@ -1,10 +1,5 @@
 # 03 – Domínios, dados e integração
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.3.2 Domínios, dados e integração  
-> **Critério de avaliação:** Modelagem de domínio e dados · Segurança (§6)  
-> **O que conferir aqui:** Bounded contexts com o que cada um possui e não possui (§1); linguagem (§2); subdomínio de cada contexto e dono do dado do cliente (§1); ownership (§3); agregado e invariantes (§3.1); modelo de dados (§3.2); sync × async com motivo (§4); snapshot, idempotência, outbox, deduplicação e reconciliação (§5); resumo das decisões de consistência (§5.6); API pública (§6).
-
 ## 1. Bounded contexts
 
 ```mermaid
@@ -210,7 +205,7 @@ Regra: síncrono só quando a resposta depende do dado e o dado precisa estar at
 | Outbox não publicada há mais de 5 min | 1 min | Alerta; relay reprocessa |
 | Pedido com status sem evento correspondente na outbox | diária | Gera evento corretivo |
 | DLQ de webhooks | contínua | Alerta; reenvio manual ou automático após correção |
-| Parceiro | quando quiser | `GET /v2/orders/{id}` e `GET /v2/orders?updatedSince=` |
+| Parceiro | quando quiser | `GET /v2/orders/{id}` e `GET /v2/orders?updatedSince=` (contrato na OpenAPI v2, implementação no plano de 60 dias) |
 
 ### 5.6 Resumo das decisões de consistência
 

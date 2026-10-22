@@ -7,7 +7,7 @@ Data: 2026-10-21
 Parceiros pedem notificação assíncrona de mudança de status. Eles estão fora da nossa rede, têm disponibilidade própria e nível técnico variado.
 
 ## Alternativas
-1. **Só polling na API.** Simples, mas gera carga e atraso. Fica como mecanismo de reconciliação, não de notificação.
+1. **Só polling na API.** Simples, mas gera carga e atraso. Fica como mecanismo de reconciliação (`GET /v2/orders?updatedSince=`, contrato na OpenAPI v2), não de notificação.
 2. **Acesso direto do parceiro ao broker.** Expõe infraestrutura interna, exige credencial no broker e acopla o parceiro à tecnologia. Rejeitada.
 3. **Webhooks HTTPS assinados, alimentados pelo broker interno.** Padrão de mercado, só exige um endpoint HTTPS do parceiro. Escolhida.
 

@@ -1,10 +1,5 @@
 # 04 – Cenários de qualidade e resiliência
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.4.1 Cenários de qualidade e efeito cascata  
-> **Critério de avaliação:** Arquitetura de solução · Estratégia de evolução  
-> **O que conferir aqui:** Cenários Q1–Q13 com métrica e critério de aceite (§2); orçamento de latência do p95 (§3); timeout, retry, circuit breaker, bulkhead e degradação com valores iniciais (§4); observabilidade (§5).
-
 ## 1. Premissa de carga
 Sem baseline informado (premissa 2 do [diagnóstico](01-diagnostico.md)). Ordem de grandeza usada:
 

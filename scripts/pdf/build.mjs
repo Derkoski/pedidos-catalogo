@@ -38,11 +38,10 @@ function readDoc(rel) {
     t = t.replace(/\n## 7\. Índice dos artefatos[\s\S]*$/, "\n");
     t = t.replace("# Pedidos e Catálogo – evolução arquitetural", "# Como ler este documento");
     t = t.replace(/> \*\*Por onde começar:\*\*.*\n/, "> **Por onde começar:** leia \"Em 1 minuto\", depois o resumo executivo (2 páginas). Para avaliar, use o roteiro por critério (seção 3). Para conferir item por item do PDF, use o anexo de rastreabilidade. Este PDF é gerado a partir dos arquivos `.md` do repositório, que são a fonte.\n");
-    t = t.replace(/\nTodo documento começa com um quadro \*\*"Para o avaliador"\*\*/, "\nTodo capítulo começa com um quadro **\"Para o avaliador\"**");
   }
   if (rel.endsWith(".jsonl")) {
     const rows = t.trim().split("\n").map(l => JSON.parse(l));
-    t = "# Casos de avaliação do assistente (semente)\n\n> **Para o avaliador**  \n> **Item do PDF:** 2.5.1  \n> **O que conferir aqui:** a semente da suíte offline. Casos bloqueantes reprovam com um único erro.\n\n" +
+    t = "# Casos de avaliação do assistente (semente)\n\nSemente da suíte offline. Casos bloqueantes reprovam com um único erro.\n\n" +
       "| Id | Categoria | Pergunta | Comportamento esperado | Bloqueante |\n|---|---|---|---|---|\n" +
       rows.map(r => `| ${r.id} | ${r.categoria.replace(/_/g, " ")} | ${r.pergunta.replace(/\|/g, "\\|")} | ${r.esperado.replace(/\|/g, "\\|")} | ${r.bloqueante ? "sim" : "não"} |`).join("\n") + "\n";
   }
