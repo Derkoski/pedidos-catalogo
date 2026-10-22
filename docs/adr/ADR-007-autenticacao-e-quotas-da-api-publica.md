@@ -19,6 +19,7 @@ A API passa a ter três tipos de consumidor: web, app e parceiros. Parceiros sã
 - Quotas por `client_id` no gateway: taxa por segundo (token bucket) e cota diária, por plano. Excedeu: `429` + `Retry-After`.
 - Rate limit separado e mais baixo para criação de pedido do que para leitura.
 - Segredo do cliente rotacionável sem downtime (dois segredos ativos).
+- O `/v1` não passa a exigir token: o consumidor atual chama sem `Authorization`, e exigir token quebraria o contrato. O gateway identifica essa rota como cliente `web`, com quota própria, até o Sunset do `/v1` (ADR-004).
 
 ## Consequências
 **Técnicas**

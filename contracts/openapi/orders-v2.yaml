@@ -21,6 +21,50 @@ tags:
   - name: webhooks
 paths:
   /v2/orders:
+    get:
+      operationId: listarPedidosAlteradosV2
+      tags: [pedidos]
+      summary: Lista pedidos do cliente de API alterados desde uma data (reconciliação; planejado para 60 dias)
+      description: |
+        Planejado para o plano de 60 dias, junto com os webhooks; não implementado na fatia executável (ADR-006).
+        Permite ao parceiro reconciliar o que não recebeu por webhook (doc 03, §5.5).
+        Só devolve pedidos do próprio cliente de API, em ordem crescente da última mudança.
+      parameters:
+        - name: updatedSince
+          in: query
+          required: true
+          description: Data e hora (UTC) a partir da qual o pedido foi criado ou mudou de status.
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: cursor
+          in: query
+          required: false
+          description: Valor de `nextCursor` da página anterior.
+          schema:
+            type: string
+            maxLength: 256
+      responses:
+        '200':
+          description: Página de pedidos alterados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPage'
+        '400':
+          $ref: '#/components/responses/Problem'
+        '401':
+          $ref: '#/components/responses/Problem'
+        '429':
+          $ref: '#/components/responses/Problem'
     post:
       operationId: criarPedidoV2
       tags: [pedidos]
@@ -250,6 +294,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderItem'
+    OrderPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        nextCursor:
+          type: string
+          description: Ausente na última página.
     OrderItem:
       type: object
       description: Snapshot imutável do Catálogo no momento da criação.

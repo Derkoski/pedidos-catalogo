@@ -6,13 +6,15 @@ info:
     Contrato atual do canal web, preservado por pelo menos 6 meses após o GA do v2 (ADR-004).
     Única mudança em relação ao contrato original: `Idempotency-Key` opcional (aditiva).
     Sem a chave, o comportamento é o antigo: cada chamada cria um pedido.
+
+    Autenticação: o v1 segue como hoje, sem token exigido pela API. O consumidor atual (canal web) chama
+    sem `Authorization` e é identificado como cliente `web`. Exigir token aqui quebraria o consumidor atual;
+    a autenticação OAuth2/OIDC por cliente de API vale para o v2 (ADR-007), e o v1 é desligado após o Sunset.
   contact:
     name: Time de Pedidos
 servers:
   - url: https://api-br.exemplo.com
     description: Célula Brasil
-security:
-  - bearer: []
 tags:
   - name: pedidos
 paths:
@@ -21,6 +23,7 @@ paths:
       operationId: criarPedidoV1
       tags: [pedidos]
       summary: Cria um pedido
+      description: Comportamento atual do canal web. Com `Idempotency-Key`, repetições não criam outro pedido.
       parameters:
         - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
@@ -55,6 +58,7 @@ paths:
       operationId: consultarPedidoV1
       tags: [pedidos]
       summary: Consulta um pedido
+      description: Devolve id, status e total do pedido, como hoje.
       parameters:
         - name: id
           in: path
@@ -72,12 +76,6 @@ paths:
         '404':
           $ref: '#/components/responses/Problem'
 components:
-  securitySchemes:
-    bearer:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: Token validado no gateway (ADR-007).
   parameters:
     IdempotencyKey:
       name: Idempotency-Key

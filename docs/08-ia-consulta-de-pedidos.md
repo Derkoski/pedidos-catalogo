@@ -1,10 +1,5 @@
 # 08 – Capacidade de IA: assistente de consulta de pedidos para o atendimento
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.5.1 Arquitetura e serviços de IA (diferencial)  
-> **Critério de avaliação:** Uso eficaz de IA · Segurança e privacidade  
-> **O que conferir aqui:** Isolamento, minimização, autorização, guardrails, observabilidade e avaliação (tabela Controles). Prompt de sistema e casos de avaliação em [docs/ia](ia/).
-
 Proposta de piloto após os 90 dias. Não faz parte do caminho crítico.
 
 ## Problema

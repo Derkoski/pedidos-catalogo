@@ -1,10 +1,5 @@
 # 05 – Threat model
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.4.1 Threat model  
-> **Critério de avaliação:** Segurança e privacidade  
-> **O que conferir aqui:** Ameaças T1–T25 agrupadas por área (identidade, API pública, dados, eventos, dependências, IA), com risco, controle e prazo, indicando o que já está provado na fatia; LGPD por tema (base legal, papéis, direitos do titular, retenção, transferência internacional, incidente) no fim.
-
 Método: STRIDE simplificado sobre as fronteiras de confiança de [02](02-arquitetura.md#5-fronteiras-de-confiança). Foco nos riscos com maior impacto. Escala: A (alto), M (médio), B (baixo).
 
 ## Ativos

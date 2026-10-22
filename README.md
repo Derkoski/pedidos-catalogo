@@ -1,5 +1,7 @@
 # Pedidos e Catálogo – evolução arquitetural
 
+[![CI](https://github.com/Derkoski/pedidos-catalogo/actions/workflows/ci.yml/badge.svg)](https://github.com/Derkoski/pedidos-catalogo/actions/workflows/ci.yml)
+
 Resposta ao **Desafio Técnico COE Sênior – Arquitetura de Soluções (Stefanini)**.
 
 > **Por onde começar:** leia a seção "Em 1 minuto" abaixo, depois o [resumo executivo](docs/00-resumo-executivo.md) (2 páginas). Para avaliar, use o [roteiro por critério](#3-roteiro-por-critério-de-avaliação). Para conferir item por item do PDF, use a [matriz de rastreabilidade](docs/rastreabilidade.md).
@@ -29,8 +31,6 @@ Resposta ao **Desafio Técnico COE Sênior – Arquitetura de Soluções (Stefan
 | 8 | [Uso de IA](docs/uso-de-ia.md) | 2 min | Ferramenta, prompts, validações, sugestões rejeitadas |
 
 Diferenciais (seção 2.5 do PDF): [08 – IA](docs/08-ia-consulta-de-pedidos.md) · [09 – Governança](docs/09-governanca-de-contratos.md) · [10 – Estimativa](docs/10-estimativa-fase-30-dias.md).
-
-Todo documento começa com um quadro **"Para o avaliador"**: qual item do PDF ele atende, qual critério e o que conferir.
 
 ## 3. Roteiro por critério de avaliação
 
@@ -77,7 +77,7 @@ Pré-requisito: .NET SDK 8 (versão fixada em `global.json`).
 dotnet test
 ```
 
-Um comando, sem dependência externa. Os testes usam `WebApplicationFactory` e SQLite em memória, com [dados sintéticos](data/catalogo-sintetico.json).
+Um comando, sem dependência externa. Os testes sobem a API com `WebApplicationFactory` e usam um arquivo SQLite temporário por teste (apagado ao final), com [dados sintéticos](data/catalogo-sintetico.json). Arquivo em vez de banco em memória para que as chamadas concorrentes usem conexões separadas, como em produção.
 
 API local (opcional, grava em `pedidos.db`):
 

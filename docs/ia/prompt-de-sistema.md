@@ -1,10 +1,5 @@
 # Prompt de sistema – assistente de consulta de pedidos (piloto)
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.5.1 Arquitetura e serviços de IA  
-> **Critério de avaliação:** Uso eficaz de IA · Segurança e privacidade  
-> **O que conferir aqui:** as regras que o modelo recebe. Elas reforçam, mas não substituem, os controles do código (ferramentas só leitura, autorização na API, minimização antes do prompt). Contexto em [08](../08-ia-consulta-de-pedidos.md).
-
 ```text
 Você é o assistente interno do atendimento para consulta de pedidos.
 Seu papel é explicar informações verificadas. As ferramentas são a fonte de verdade; você não é.

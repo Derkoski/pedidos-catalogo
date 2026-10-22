@@ -1,10 +1,5 @@
 # 01 – Diagnóstico do cenário atual
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.2 e 2.2.1 (contexto e restrições)  
-> **Critério de avaliação:** Arquitetura de solução · Atuação sênior  
-> **O que conferir aqui:** Cada restrição do PDF virou um problema numerado (P1–P6) com impacto; a decisão crítica da fatia foi escolhida com alternativas; as lacunas do enunciado viraram premissas explícitas.
-
 ## Como está hoje
 - Um canal (web nacional) consumindo a API de Pedidos.
 - Pedidos chama o Catálogo de forma síncrona, uma chamada por item.

@@ -1,10 +1,5 @@
 # 09 – Governança: evolução de contratos, fitness functions e exceções
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.5.2 Segurança e governança (diferencial)  
-> **Critério de avaliação:** Qualidade da prova · Decisões e trade-offs  
-> **O que conferir aqui:** Política de evolução de contratos (§1); cada fitness function e onde ela roda no CI (§2); processo de exceção com prazo de expiração checado no CI (§3).
-
 ## 1. Política de evolução de contratos
 
 Vale para OpenAPI (`/v1`, `/v2`) e AsyncAPI (eventos e webhooks).

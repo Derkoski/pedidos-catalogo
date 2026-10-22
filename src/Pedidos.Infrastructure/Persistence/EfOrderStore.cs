@@ -8,7 +8,18 @@ namespace Pedidos.Infrastructure.Persistence;
 
 public sealed class EfOrderStore(PedidosDbContext db) : IOrderStore
 {
-    private const int SqliteConstraint = 19;
+    // Só a violação da chave (client_id, key) da tabela idempotency_keys é conflito de idempotência.
+    // Outras violações (NOT NULL, FK, outra tabela) seguem como erro, para não virarem 409 por engano.
+    private const int SqliteConstraintPrimaryKey = 1555;
+    private const int SqliteConstraintUnique = 2067;
+    private const string IdempotencyTable = "idempotency_keys.";
+
+    private static bool IsIdempotencyKeyViolation(DbUpdateException e) =>
+        e.InnerException is SqliteException
+        {
+            SqliteExtendedErrorCode: SqliteConstraintPrimaryKey or SqliteConstraintUnique
+        } sqlite
+        && sqlite.Message.Contains(IdempotencyTable, StringComparison.Ordinal);
 
     public static readonly JsonSerializerOptions EventJson = new(JsonSerializerDefaults.Web)
     {
@@ -59,7 +70,7 @@ public sealed class EfOrderStore(PedidosDbContext db) : IOrderStore
             await db.SaveChangesAsync(ct);
             await tx.CommitAsync(ct);
         }
-        catch (DbUpdateException e) when (idempotency is not null && e.InnerException is SqliteException { SqliteErrorCode: SqliteConstraint })
+        catch (DbUpdateException e) when (idempotency is not null && IsIdempotencyKeyViolation(e))
         {
             await tx.RollbackAsync(ct);
             db.ChangeTracker.Clear();

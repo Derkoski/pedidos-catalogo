@@ -1,10 +1,5 @@
 # 10 – Estimativa da primeira fase (30 dias)
 
-> **Para o avaliador**  
-> **Item do PDF:** 2.5.3 Estimativa técnica (diferencial)  
-> **Critério de avaliação:** Atuação sênior  
-> **O que conferir aqui:** time, esforço e custo em dois cenários, sem IA e com IA no desenvolvimento; os estudos que explicam o tamanho do ganho com IA; custo separado de preço; premissas e riscos.
-
 Escopo: entregas dos dias 1–30 de [06](06-plano-30-60-90.md). Salários CLT informados pela empresa; o restante está marcado como premissa.
 
 ## Time (cenário sem IA)
