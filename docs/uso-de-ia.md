@@ -108,4 +108,4 @@ Validação desta fase: `dotnet test` (52 de 52), Spectral, AsyncAPI CLI, oasdif
 | 2.5.2 Governança | [09](09-governanca-de-contratos.md), [exceções](excecoes.md), `tests/Pedidos.Tests/Governanca` |
 | 2.5.3 Estimativa | [10](10-estimativa-fase-30-dias.md) |
 | Entrega: README, índice, resumo executivo, documento de IA | README, [00](00-resumo-executivo.md), este documento |
-| Desejável: slides | [apresentacao.pptx](../apresentacao/apresentacao.pptx) |
+| Desejável: slides | [apresentacao.pptx](../entregaveis/apresentacao.pptx) |
