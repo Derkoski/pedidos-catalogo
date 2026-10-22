@@ -2,7 +2,7 @@
   "name": "pedidos-catalogo-pdf",
   "private": true,
   "type": "module",
-  "description": "Gera entregaveis/*.pdf a partir dos .md (fonte de verdade).",
+  "description": "Gera entregaveis/Resumo-executivo.pdf a partir dos .md (fonte de verdade).",
   "scripts": {
     "pdf": "node build.mjs ../.. ../../entregaveis"
   },

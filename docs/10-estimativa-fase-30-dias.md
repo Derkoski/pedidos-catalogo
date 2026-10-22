@@ -1,6 +1,8 @@
 # 10 – Estimativa da primeira fase (30 dias)
 
-Escopo: entregas dos dias 1–30 de [06](06-plano-30-60-90.md). Salários CLT informados pela empresa; o restante está marcado como premissa.
+Escopo: entregas dos dias 1–30 de [06](06-plano-30-60-90.md).
+
+> **Natureza dos números.** Os salários são uma estimativa minha por cargo, não dados fornecidos pela empresa. Servem para mostrar a ordem de grandeza e o método da conta. O custo real só se fecha com os dados da empresa: pessoas e cargos reais, folha e benefícios, licenças de software, custo das ferramentas de IA, tributos e custos operacionais. Tudo o que não é método está marcado como premissa.
 
 ## Time (cenário sem IA)
 
@@ -33,7 +35,7 @@ Escopo: entregas dos dias 1–30 de [06](06-plano-30-60-90.md). Salários CLT in
 
 ## Custos principais (cenário sem IA)
 
-Regime: **CLT**, o único usado pela empresa. Os salários foram informados pela empresa, exceto o de SRE/DevOps, que é premissa (salário de sênior). A conta tem três camadas, para não misturar salário, custo e preço.
+Regime: **CLT** (premissa). Todos os salários abaixo são estimativa minha por cargo (premissa), a substituir pela folha real. A conta tem três camadas, para não misturar salário, custo e preço.
 
 ### 1. Custo da equipe na fase (1 mês)
 
@@ -77,13 +79,34 @@ Preço = custo ÷ (1 − tributos sobre a receita − margem). Tributos e margem
 
 IRPJ e CSLL incidem sobre o lucro e saem da margem.
 
-### 4. Infraestrutura e ferramentas
+### 4. Infraestrutura e ferramentas (ordem de grandeza)
 
-| Item | Valor |
-|------|-------|
-| Novas tabelas no banco atual | Sem custo adicional esperado (mesma instância, premissa) |
-| Observabilidade gerenciada e ambiente temporário de teste de carga | A cotar na calculadora do provedor depois de medir o tráfego real (semana 1). Provedor ainda não escolhido |
-| Ferramentas (Spectral, AsyncAPI CLI, oasdiff, xUnit) | Open source, sem licença |
+Faixas por ordem de grandeza, com base em preços de lista de serviços gerenciados de nuvem pública. O provedor ainda não foi escolhido, e os valores dependem do tráfego real. Câmbio: R$ 5,04 por dólar. A cotação final sai da calculadora do provedor na semana 1, depois de medir o baseline.
+
+Premissas de dimensionamento: o tráfego da [premissa de carga](04-qualidade-e-resiliencia.md#1-premissa-de-carga) (20 → 200 criações/s e 100 → 1.000 consultas/s no pico); 4 a 6 instâncias da API de Pedidos; logs com retenção de 15 dias e traces amostrados em 10 %.
+
+**Fase de 30 dias**
+
+| Item | Premissa | Faixa (R$) |
+|------|----------|-----------:|
+| Novas tabelas no banco atual | Mesma instância; só mais armazenamento e um índice | ≈ 0 |
+| Observabilidade gerenciada (traces, métricas, logs) | Volume do tráfego atual, amostragem de 10 % | 1,5 a 4 mil/mês |
+| Ambiente temporário para teste de carga | Cópia reduzida da API e do banco por cerca de 2 semanas, mais o gerador de carga | 1,5 a 3,5 mil (uma vez) |
+| Ferramentas (Spectral, AsyncAPI CLI, oasdiff, xUnit) | Open source | 0 |
+| **Total da fase** | | **≈ R$ 3 a 7,5 mil** (3 % a 8 % do custo da equipe) |
+
+**Fases de 60 e 90 dias (por mês, quando o item entra em operação)**
+
+| Item | Premissa | Faixa (R$/mês) |
+|------|----------|---------------:|
+| API Gateway + WAF | Cobrança por requisição, no tráfego 10x | 3,5 a 12,5 mil |
+| Broker gerenciado | Cluster pequeno; eventos só com IDs | 1,5 a 4,5 mil |
+| Cache do Catálogo | Uma instância pequena por região | 0,5 a 1,5 mil |
+| Observabilidade ampliada (substitui a da fase 1) | Mais serviços: relay, notificador e gateway | 2,5 a 6 mil |
+| **Subtotal, opção A do ADR-005 (sem célula)** | | **≈ 8 a 25 mil/mês** |
+| Célula mínima do País 2 (só na opção B) | API de Pedidos, banco com réplica e cache na região, nos dias 61–90 | + 4 a 7,5 mil/mês |
+
+Nas duas fases de 60 e 90 dias isso dá **≈ R$ 16 a 50 mil** na opção A e **≈ R$ 20 a 57 mil** na opção B, porque a célula só roda no último mês. É de 7 % a 27 % do custo da equipe no mesmo período. O custo dominante do projeto é a equipe, não a infraestrutura. Por isso a faixa larga não muda a decisão.
 
 ## Projeção com IA no desenvolvimento
 
@@ -172,11 +195,12 @@ Alternativa com o mesmo custo: manter o time sem IA e usar o ganho para antecipa
 | Ferramenta de IA | – | R$ 1,0 mil | |
 | **Custo total** | **R$ 93,2 mil** | **R$ 79,2 mil** | **−15 %** |
 | Preço no exemplo da seção "Do custo ao preço" | ≈ R$ 141,7 mil | ≈ R$ 120,4 mil | −15 % |
+| Infraestrutura (ordem de grandeza) | ≈ R$ 3 a 7,5 mil | ≈ R$ 3 a 7,5 mil | – |
 | **Fases de 60 e 90 dias (projeção)** | | | |
 | Equipe | 6,25 FTE × 2 meses (~275 pessoa-dia) | 4,95 FTE × 2 meses (~218 pessoa-dia) | −21 % |
 | Custo total (equipe + ferramenta) | ≈ R$ 214,6 mil | ≈ R$ 178,4 mil | −17 % |
 | Preço no mesmo exemplo | ≈ R$ 326,3 mil | ≈ R$ 271,3 mil | |
-| Infraestrutura | A cotar | A cotar | – |
+| Infraestrutura (ordem de grandeza) | ≈ R$ 16 a 57 mil | ≈ R$ 16 a 57 mil | – |
 
 As fases de 60 e 90 dias com IA aplicam os mesmos ganhos (o backend extra também a 70 %) e serão recalibradas com o ganho medido nas semanas 1 e 2.
 
@@ -186,7 +210,8 @@ Fontes dos estudos: Peng et al., *The Impact of AI on Developer Productivity: Ev
 - Time já conhece o código atual e tem acesso a produção com pipeline existente.
 - Banco relacional atual suporta as novas tabelas sem trocar instância.
 - Feature flags disponíveis (ou biblioteca simples adotada na semana 1).
-- Salários CLT informados pela empresa; SRE/DevOps a R$ 14.000 é premissa. Benefícios fora do custo.
+- Salários CLT: estimativa minha por cargo, a substituir pela folha real da empresa. Benefícios fora do custo.
+- Infraestrutura: faixas por preço de lista, sem provedor escolhido; cotação na semana 1, depois de medir o tráfego.
 - Tributos e margem da seção 3 são exemplo; os valores reais vêm da área comercial.
 - Cenário com IA: ganhos por tipo de entrega baseados nos estudos citados; time com acesso a uma ferramenta corporativa aprovada; ganho medido nas semanas 1 e 2.
 
