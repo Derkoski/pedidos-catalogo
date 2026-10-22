@@ -125,7 +125,7 @@ As premissas da arquitetura (tráfego, país, nuvem) estão em [07 – Premissas
 | Fatia executável e testes | `src/` · `tests/Pedidos.Tests` |
 | Documento de uso de IA | [uso-de-ia](docs/uso-de-ia.md) |
 | Resumo executivo (2 páginas) | [00](docs/00-resumo-executivo.md) |
-| Apresentação (desejável) | [apresentacao.pptx](apresentacao/apresentacao.pptx) · [PDF](apresentacao/apresentacao.pdf) · [resumo executivo em PDF](apresentacao/resumo-executivo.pdf) |
+| Apresentação (desejável) | [apresentacao.pptx](entregaveis/apresentacao.pptx) · [PDF](entregaveis/apresentacao.pdf) |
 | Conferência item a item | [rastreabilidade](docs/rastreabilidade.md) |
 | Versões em PDF (geradas dos `.md`) | [Resumo executivo](entregaveis/Resumo-executivo.pdf) · [Documentação completa](entregaveis/Documentacao-completa.pdf) |
 
@@ -139,7 +139,6 @@ data/        catálogo sintético
 src/         Domain, Application, Infrastructure, Api
 tests/       prova executável e fitness functions (Governanca/)
 docs/        arquitetura, ADRs, governança, IA
-apresentacao/ slides (pptx e pdf) e resumo executivo em pdf
-entregaveis/ PDFs gerados a partir dos .md (resumo executivo e documentação completa)
+entregaveis/ resumo executivo e documentação completa em PDF (gerados dos .md) e slides (pptx e pdf)
 scripts/     checagem de quebra de contrato (oasdiff); geração dos PDFs (pdf/)
 ```
